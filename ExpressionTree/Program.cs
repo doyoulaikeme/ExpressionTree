@@ -104,7 +104,7 @@ namespace ExpressionTree
 
             };
 
-            var student1 = new Student()
+            var studentDTO = new StudentDTO()
             {
                 Id = 123,
                 Account = "Admin",
@@ -113,10 +113,23 @@ namespace ExpressionTree
 
             };
 
+            //转化类型传值
+            Func<StudentDTO, Student> _func = s => new Student
+            {
+                State = s.State,
+                Account = s.Account,
+                Id = s.Id,
+                Name = s.Name
+            };
+            var student1 = _func.Invoke(studentDTO);
+
             var exp = expression.Compile();
             var result = exp.Invoke(student);
             var result1 = exp.Invoke(student1);
             Console.WriteLine("拼装结果为： \n exp.Invoke(student)：{0} \n exp.Invoke(student1)：{1}", result, result1);
+
+
+
             #endregion
 
             Console.ReadKey();
