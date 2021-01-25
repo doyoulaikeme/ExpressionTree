@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ExpressionTree
 {
+    /// <summary>
+    /// 可通过反编译工具查看lambda语法糖具体生成源码
+    /// </summary>
     public class LambdaBuilderDemo
     {
 
