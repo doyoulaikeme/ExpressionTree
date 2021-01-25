@@ -129,7 +129,6 @@ namespace ExpressionTree
             Console.WriteLine("拼装结果为： \n exp.Invoke(student)：{0} \n exp.Invoke(student1)：{1}", result, result1);
 
 
-
             #endregion
 
             Console.ReadKey();
