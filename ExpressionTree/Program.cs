@@ -17,30 +17,46 @@ namespace ExpressionTree
         {
             Console.WriteLine("***********表达式树******************");
 
-            Expression<Func<int, bool>> pression = p => p > 100;
+            #region 基本调用
+            //Expression<Func<int, bool>> pression = p => p > 100;
 
-            Expression<Func<int, int, int>> pression2 = (m, n) => m * n + 1 + 2;
+            //Expression<Func<int, int, int>> pression2 = (m, n) => m * n + 1 + 2;
 
-            var stuTable = new List<Student>().AsQueryable();
+            //var stuTable = new List<Student>().AsQueryable();
 
-            //通过拼接表达式树条件查询
-            Expression<Func<Student, bool>> exp = null;
+            ////通过拼接表达式树条件查询
+            //Expression<Func<Student, bool>> exp = null;
 
-            if (true)//条件1
-            {
-                exp = s => s.Id == 1;
-            }
+            //if (true)//条件1
+            //{
+            //    exp = s => s.Id == 1;
+            //}
 
-            if (true)//条件2
-            {
-                exp = s => s.Id == 1 && s.Name.StartsWith("test");
-            }
+            //if (true)//条件2
+            //{
+            //    exp = s => s.Id == 1 && s.Name.StartsWith("test");
+            //}
 
-            stuTable = stuTable.Where(exp);
+            //stuTable = stuTable.Where(exp);
+            #endregion
 
-            //自动拼装lambda
+            #region 拼装lambda
 
+            //声明参数i
+            ParameterExpression parameterExpression = Expression.Parameter(typeof(int), "i");
+            //声明常量1
+            ConstantExpression constant = Expression.Constant(1, typeof(int));
+            //声明运算方法，拼装.
+            BinaryExpression binaryAdd = Expression.Add(parameterExpression, constant);
+            //调用Lambda方法
+            Expression<Func<int, int>> expression = Expression.Lambda<Func<int, int>>(binaryAdd, new ParameterExpression[] { parameterExpression });
+            //编译成委托
+            var func = expression.Compile();
+            //执行
+            var result = func.Invoke(1);
 
+            Console.WriteLine("拼装lambda执行结果为：{0}", result);
+            #endregion
 
             Console.ReadKey();
 
