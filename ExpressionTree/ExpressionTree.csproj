@@ -42,10 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomVisitor.cs" />
     <Compile Include="ExpressionGenericMapper.cs" />
     <Compile Include="LambdaBuilderDemo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlOperator.cs" />
     <Compile Include="Student.cs" />
   </ItemGroup>
   <ItemGroup>

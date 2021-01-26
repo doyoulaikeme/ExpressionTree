@@ -136,18 +136,28 @@ namespace ExpressionTree
             #endregion
 
             #region 自动转换类属性
-            var studentDTO = new StudentDTO()
-            {
-                Id = 123,
-                Account = "Admin",
-                Name = "laikeme",
-                State = 1
+            //var studentDTO = new StudentDTO()
+            //{
+            //    Id = 123,
+            //    Account = "Admin",
+            //    Name = "laikeme",
+            //    State = 1
 
-            };
-            Student dto = ExpressionGenericMapper<StudentDTO, Student>.Trans(studentDTO);
+            //};
+            //Student dto = ExpressionGenericMapper<StudentDTO, Student>.Trans(studentDTO);
 
-            Console.WriteLine(dto.Name);
+            //Console.WriteLine(dto.Name);
 
+            #endregion
+
+            #region 查看表达式树拼装内部结构
+
+            //lambda表达式解析成sql的where，
+            //理解二叉树结构+关联
+            Expression<Func<Student, bool>> exp = i => i.Id > 1 && i.State == 1 && i.Account.StartsWith("doyou");
+            CustomVisitor visitor = new CustomVisitor();
+            visitor.Visit(exp);
+            Console.WriteLine(visitor.GetWhere());
             #endregion
             Console.ReadKey();
 
