@@ -62,48 +62,80 @@ namespace ExpressionTree
             //测试用例
             //Expression<Func<Student, bool>> exp = s => s.Id > 100 && s.Name.StartsWith("doyou") && s.Account.Length > 2 && s.State == 1;
 
-            ParameterExpression parameterExpression = Expression.Parameter(typeof(Student), "s");
+            //ParameterExpression parameterExpression = Expression.Parameter(typeof(Student), "s");
 
-            ConstantExpression constant = Expression.Constant(1, typeof(int));
-            MemberExpression state = Expression.Property(parameterExpression, typeof(Student).GetProperty("State"));
-            BinaryExpression stateEqual = Expression.Equal(state, constant);
-
-
-            ConstantExpression constant1 = Expression.Constant(1, typeof(int));
-            MemberExpression account = Expression.Property(parameterExpression, typeof(Student).GetProperty("Account"));
-            MemberExpression length = Expression.Property(account, typeof(string).GetProperty("Length"));
-            BinaryExpression accountExp = Expression.GreaterThan(length, constant1);
+            //ConstantExpression constant = Expression.Constant(1, typeof(int));
+            //MemberExpression state = Expression.Property(parameterExpression, typeof(Student).GetProperty("State"));
+            //BinaryExpression stateEqual = Expression.Equal(state, constant);
 
 
-            ConstantExpression constant2 = Expression.Constant("doyou", typeof(string));
-            MemberExpression name = Expression.Property(parameterExpression, typeof(Student).GetProperty("Name"));
-
-            MethodCallExpression nameExp = Expression.Call(name, typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) }), new Expression[] { constant2 });
-
-
-            ConstantExpression constant3 = Expression.Constant(100, typeof(int));
-            MemberExpression id = Expression.Property(parameterExpression, typeof(Student).GetProperty("Id"));
-            BinaryExpression idExp = Expression.GreaterThan(id, constant3);
+            //ConstantExpression constant1 = Expression.Constant(1, typeof(int));
+            //MemberExpression account = Expression.Property(parameterExpression, typeof(Student).GetProperty("Account"));
+            //MemberExpression length = Expression.Property(account, typeof(string).GetProperty("Length"));
+            //BinaryExpression accountExp = Expression.GreaterThan(length, constant1);
 
 
-            Expression<Func<Student, bool>> expression = Expression.Lambda<Func<Student, bool>>(
-                Expression.AndAlso(
-                    Expression.AndAlso(
-                        Expression.AndAlso(idExp, nameExp), accountExp)
-                , stateEqual)
-                , new ParameterExpression[] {
-                parameterExpression
-                });
+            //ConstantExpression constant2 = Expression.Constant("doyou", typeof(string));
+            //MemberExpression name = Expression.Property(parameterExpression, typeof(Student).GetProperty("Name"));
 
-            var student = new Student()
-            {
-                Id = 123,
-                Account = "Admin",
-                Name = "doyoulaikeme",
-                State = 1
+            //MethodCallExpression nameExp = Expression.Call(name, typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) }), new Expression[] { constant2 });
 
-            };
 
+            //ConstantExpression constant3 = Expression.Constant(100, typeof(int));
+            //MemberExpression id = Expression.Property(parameterExpression, typeof(Student).GetProperty("Id"));
+            //BinaryExpression idExp = Expression.GreaterThan(id, constant3);
+
+
+            //Expression<Func<Student, bool>> expression = Expression.Lambda<Func<Student, bool>>(
+            //    Expression.AndAlso(
+            //        Expression.AndAlso(
+            //            Expression.AndAlso(idExp, nameExp), accountExp)
+            //    , stateEqual)
+            //    , new ParameterExpression[] {
+            //    parameterExpression
+            //    });
+
+            //var student = new Student()
+            //{
+            //    Id = 123,
+            //    Account = "Admin",
+            //    Name = "doyoulaikeme",
+            //    State = 1
+
+            //};
+
+            //var studentDTO = new StudentDTO()
+            //{
+            //    Id = 123,
+            //    Account = "Admin",
+            //    Name = "laikeme",
+            //    State = 1
+
+            //};
+
+            ////转化类型传值
+            //Func<StudentDTO, Student> _func = s => new Student
+            //{
+            //    State = s.State,
+            //    Account = s.Account,
+            //    Id = s.Id,
+            //    Name = s.Name
+            //};
+            //var student1 = _func.Invoke(studentDTO);
+
+            //var exp = expression.Compile();
+            //var result = exp.Invoke(student);
+            //var result1 = exp.Invoke(student1);
+            //Console.WriteLine("拼装结果为： \n exp.Invoke(student)：{0} \n exp.Invoke(student1)：{1}", result, result1);
+
+
+
+
+
+
+            #endregion
+
+            #region 自动转换类属性
             var studentDTO = new StudentDTO()
             {
                 Id = 123,
@@ -112,24 +144,11 @@ namespace ExpressionTree
                 State = 1
 
             };
+            Student dto = ExpressionGenericMapper<StudentDTO, Student>.Trans(studentDTO);
 
-            //转化类型传值
-            Func<StudentDTO, Student> _func = s => new Student
-            {
-                State = s.State,
-                Account = s.Account,
-                Id = s.Id,
-                Name = s.Name
-            };
-            var student1 = _func.Invoke(studentDTO);
-
-            var exp = expression.Compile();
-            var result = exp.Invoke(student);
-            var result1 = exp.Invoke(student1);
-            Console.WriteLine("拼装结果为： \n exp.Invoke(student)：{0} \n exp.Invoke(student1)：{1}", result, result1);
+            Console.WriteLine(dto.Name);
 
             #endregion
-
             Console.ReadKey();
 
         }
